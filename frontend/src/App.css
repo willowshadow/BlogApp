@@ -36,3 +36,25 @@
     transform: rotate(360deg);
   }
 }
+
+
+.icon-ripple {
+  position: relative;
+  overflow: hidden;
+}
+
+.icon-ripple::before {
+  content: '';
+  position: absolute;
+  border-radius: 50%;
+  background-color: rgba(0, 0, 0, 0.3);
+  pointer-events: none;
+  transition: transform 0.4s, opacity 0.4s;
+  opacity: 0;
+  transform: scale(0);
+}
+
+.icon-ripple.clicked::before {
+  opacity: 1;
+  transform: scale(3);
+}
