@@ -12,27 +12,20 @@ import BlogPage from './pages/blogPage'
 import Dashboard from './pages/dashboard';
 import LoginPage from './pages/loginPage';
 import SignUpPage from './pages/signupPage';
+import BlogEditPage from './pages/blogEditPage';
+
 function App() {
-
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
-
-  useEffect(() => {
-    // Check authentication status (e.g., presence of JWT token)
-    const token = localStorage.getItem('token');
-    if (token) {
-      setIsLoggedIn(true);
-    }
-  }, []);
   
   return (
     
     <Router>
       <Routes>
-        <Route path="/" element={<AdminPage/>}/>
-        <Route path="/dashboard" element={<Dashboard/>}/>
-        <Route path="/blog" element={<BlogPage/>}/>
+        <Route path="/admin" element={<AdminPage/>}/>
+        <Route path="/" element={<Dashboard/>}/>
+        <Route path="/blog/:blogId" element={<BlogPage/>}/>
         <Route path="/login" element={<LoginPage/>}/>
         <Route path="/signup" element={<SignUpPage/>}/>
+        <Route path="/blogCreate" element={<BlogEditPage/>}/>
       </Routes>
     </Router>
   );

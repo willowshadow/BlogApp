@@ -1,4 +1,5 @@
 export interface BlogListObject {
+  _id: string;
   title: string;
   author: string;
   text: string;
@@ -15,6 +16,7 @@ interface BlogListState {
 
 const blogListData = [
   {
+    _id: '1',
     title: 'Blog 1',
     author: 'John Doe',
     text: 'This is a brief description of blog 1 content.',
@@ -24,6 +26,7 @@ const blogListData = [
     date: 'March 9, 2024'
   },
   {
+    _id: '2',
     title: 'Blog 2',
     author: 'Jane Smith',
     text: 'This is a brief description of blog 2 content.',
@@ -33,6 +36,7 @@ const blogListData = [
     date: 'March 10, 2024'
   },
   {
+    _id: '3',
     title: 'Blog 3',
     author: 'Bob Johnson',
     text: 'This is a brief description of blog 3 content.',
@@ -41,7 +45,7 @@ const blogListData = [
     minutesToRead: 10,
     date: 'March 11, 2024'
   },
-  // Add more blog entries as needed
+  //Add more blog entries as needed
 ];
 
 export default blogListData;

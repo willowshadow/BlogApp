@@ -1,21 +1,36 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { MdList } from "react-icons/md";
 import { useNavigate } from 'react-router-dom';
 import SideNavBar from '../components/SideNavBar';
 import blogListData, { BlogListObject } from '../models/blogListData';
 import { DashboardBlogItem } from '../components/DashboardBlogItem';
+import axios from 'axios';
 
 export default function Dashboard() {
 
   const navigate = useNavigate();
+  const [blogs, setBlogs] = useState(blogListData);
 
   
+  const getUserBlogs = async () => {
+    try {
+      var user = localStorage.getItem("username");
+      const response = await axios.get(`http://localhost:5000/blog`);
+      setBlogs(response.data);
+    }
+    catch (error) {
+      console.log(error);
+    }
+  }
+  useState(() => {
+    getUserBlogs();
+  })
 
 
   function showAllBlogs() {
-    return blogListData.map((blog, index) => {
+    return blogs.map((blog, index) => {
       return (
-        <DashboardBlogItem key={index} blog={blog}></DashboardBlogItem>
+        <DashboardBlogItem key={index} blog={blog} id={blog._id}></DashboardBlogItem>
       );
     })
   }

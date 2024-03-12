@@ -6,6 +6,7 @@ const bodyParser = require("body-parser");
 const blogRoutes = require("./routes/blogRoutes");
 const authRoutes = require("./routes/authRoutes");
 const cors = require('cors');
+const { authenticateJWT } = require('./middleware/auth.middleware');
 
 
 
@@ -17,7 +18,7 @@ app.use(cors());
 
 // Middleware
 app.use(bodyParser.json());
-
+app.use(bodyParser.urlencoded({ extended: false }))
 
 
 

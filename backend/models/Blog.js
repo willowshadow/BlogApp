@@ -7,6 +7,7 @@ const blogSchema = new mongoose.Schema({
     image: String,
     type: String,
     minutesToRead: Number,
+    date: Date
 });
 
 module.exports = mongoose.model("Blog", blogSchema)

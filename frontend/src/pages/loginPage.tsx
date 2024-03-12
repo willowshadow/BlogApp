@@ -51,6 +51,8 @@ export default function LoginPage() {
       password: password
     }).then((response) => {
       console.log(response.data);
+      localStorage.setItem('token', response.data.token);
+      localStorage.setItem('username', username);
       // Proceed with login
       history('/');
     }).catch((error) => {
@@ -63,8 +65,8 @@ export default function LoginPage() {
   return (
     <div className="min-h-screen flex items-center justify-evenly bg-gray-50 py-12 px-4 sm:px-6 lg:px-8 flex-col">
       <div className=''>
-        <h1 className={`text-7xl text-center font-serif ${isExtended ? 'extended' : 'retracted'}`}>
-          Medium{isExtended ? '.' : ''}
+        <h1 className={`text-7xl text-gray-700 text-left font-serif ${isExtended ? 'extended' : 'retracted'}`}>
+          Medium{isExtended ? '.' : '..'}
         </h1>
         <h1 className='text-2xl text-center'>
           {text}

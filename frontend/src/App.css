@@ -58,3 +58,20 @@
   opacity: 1;
   transform: scale(3);
 }
+
+.truncateText {
+  display: -webkit-box;
+  -webkit-line-clamp: 2; /* Limit the text to 2 lines */
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  position: relative;
+}
+
+.truncateText::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  background: linear-gradient(to right, rgba(255, 255, 255, 0), rgba(255, 255, 255, 1) 70%); /* Adjust gradient colors and stops as needed */
+  padding-left: 4px;
+}

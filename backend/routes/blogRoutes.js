@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const Blog = require('../models/Blog');
+const { authenticateJWT } = require('../middleware/auth.middleware');
 
 // Get all blogs
 router.get('/blog', async (req, res) => {
@@ -25,6 +26,18 @@ router.get('/blog:id', async (req, res) => {
     }
 });
 
+//get all by author
+router.get('/blog/:author', async (req, res) => {
+    try {
+        const blogsFound = await Blog.find({ author: req.params.author });
+        if (!blogsFound || blogsFound.length === 0) {
+            return res.status(404).json({ message: 'Blogs not found for specified author' });
+        }
+        res.status(200).json(blogsFound);
+    } catch (err) {
+        res.status(500).json({ message: err.message });
+    }
+});
 // Create a new blog
 router.post('/blog', async (req, res) => {
     const blog = new Blog({
@@ -45,7 +58,7 @@ router.post('/blog', async (req, res) => {
 });
 
 // Update a blog
-router.put('/blog:id', async (req, res) => {
+router.put('/blog:id',authenticateJWT, async (req, res) => {
     try {
         const blogFound = await Blog.findById(req.params.id);
         if (!blogFound) {
@@ -60,7 +73,7 @@ router.put('/blog:id', async (req, res) => {
 });
 
 // Delete a blog
-router.delete('/blog:id', async (req, res) => {
+router.delete('/blog:id',authenticateJWT, async (req, res) => {
     try {
         const blogFound = await Blog.findById(req.params.id);
         if (!blogFound) {

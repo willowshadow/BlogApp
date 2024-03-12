@@ -1,6 +1,7 @@
 import React from 'react';
 import { MdOutlineBookmarkAdd } from "react-icons/md";
 import { SlOptions } from "react-icons/sl";
+import { useNavigate } from 'react-router-dom';
 
 /**
  * Renders a dashboard blog item with author, title, text, type, minutes to read, image, and date.
@@ -8,8 +9,9 @@ import { SlOptions } from "react-icons/sl";
  * @param {Object} props - Object containing blog details like author, title, text, type, minutes to read, image, and date
  * @return {React.ReactElement} A div containing the blog item
  */
-export function DashboardBlogItem(props: { blog: { author: string | number | boolean | React.ReactElement<any, string | React.JSXElementConstructor<any>> | Iterable<React.ReactNode> | React.ReactPortal | null | undefined; title: string | number | boolean | React.ReactElement<any, string | React.JSXElementConstructor<any>> | Iterable<React.ReactNode> | React.ReactPortal | null | undefined; text: string | number | boolean | React.ReactElement<any, string | React.JSXElementConstructor<any>> | Iterable<React.ReactNode> | React.ReactPortal | null | undefined; type: string | number | boolean | React.ReactElement<any, string | React.JSXElementConstructor<any>> | Iterable<React.ReactNode> | React.ReactPortal | null | undefined; minutesToRead: string | number | boolean | React.ReactElement<any, string | React.JSXElementConstructor<any>> | Iterable<React.ReactNode> | React.ReactPortal | null | undefined; image: string | undefined; date: string | number | boolean | React.ReactElement<any, string | React.JSXElementConstructor<any>> | Iterable<React.ReactNode> | React.ReactPortal | null | undefined; }; }): React.ReactElement {
-  return (<div className="border border-gray-100 overflow-hidden cursor-pointer bg-white">
+export function DashboardBlogItem(props: { blog: { author: string | number | boolean | React.ReactElement<any, string | React.JSXElementConstructor<any>> | Iterable<React.ReactNode> | React.ReactPortal | null | undefined; title: string | number | boolean | React.ReactElement<any, string | React.JSXElementConstructor<any>> | Iterable<React.ReactNode> | React.ReactPortal | null | undefined; text: string | number | boolean | React.ReactElement<any, string | React.JSXElementConstructor<any>> | Iterable<React.ReactNode> | React.ReactPortal | null | undefined; type: string | number | boolean | React.ReactElement<any, string | React.JSXElementConstructor<any>> | Iterable<React.ReactNode> | React.ReactPortal | null | undefined; minutesToRead: string | number | boolean | React.ReactElement<any, string | React.JSXElementConstructor<any>> | Iterable<React.ReactNode> | React.ReactPortal | null | undefined; image: string | undefined; date: string | number | boolean | React.ReactElement<any, string | React.JSXElementConstructor<any>> | Iterable<React.ReactNode> | React.ReactPortal | null | undefined; }, id: string; }): React.ReactElement {
+  const navigate = useNavigate();
+  return (<div className="border border-gray-100 overflow-hidden cursor-pointer bg-white" onClick={() => navigate(`/blog/${props.id}`)}>
     {
       /* Author Name */
     }
@@ -29,7 +31,7 @@ export function DashboardBlogItem(props: { blog: { author: string | number | boo
         {
           /* Blog Text */
         }
-        <p className="text-gray-600 mb-2">{props.blog.text}</p>
+        <p className="text-gray-600 mb-2 truncateText">{props.blog.text}</p>
         {
           /* Type of Article and Minutes to Read */
         }
@@ -41,7 +43,12 @@ export function DashboardBlogItem(props: { blog: { author: string | number | boo
       {
         /* Dummy Content Picture */
       }
-      <img src={props.blog.image} alt="Blog" className="w-1/3" />
+      <img
+        src={props.blog.image}
+        alt="Blog"
+        className="w-1/3 h-1/3" // Set width to 1/3 of the parent container and allow height to adjust automatically based on aspect ratio
+        style={{ objectFit: 'cover' }} // Maintain aspect ratio and cover the entire container
+      />
     </div>
     {
       /* Bottom Actions */
