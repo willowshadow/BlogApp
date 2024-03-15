@@ -4,6 +4,7 @@ import { FaEdit, FaTrash } from 'react-icons/fa';
 import blogListData from '../models/blogListData';
 import SideNavBar from '../components/SideNavBar';
 import axios from 'axios';
+import { axiosInstance } from '../utils/axiosUtils';
 
 const AdminPage: React.FC = () => {
   const [blogs, setBlogs] = useState(blogListData);
@@ -12,7 +13,7 @@ const AdminPage: React.FC = () => {
   const getUserBlogs = async () => {
     try {
       var user = localStorage.getItem("username");
-      const response = await axios.get(`http://localhost:5000/blog/${user}`);
+      const response = await axiosInstance.get(`/blog/${user}`, { headers: { Authorization: `Bearer ${localStorage.getItem("token")}` } });
       setBlogs(response.data);
     }
     catch (error) {

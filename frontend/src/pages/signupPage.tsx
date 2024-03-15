@@ -33,7 +33,7 @@ const SignUpPage = () => {
             // Proceed with sign-up
             history('/login'); // Redirect to login page after successful sign-up
         }).catch((error) => {
-            setError(error.response.data.message);
+            setError(error?.response?.data?.message||'errrrr');
             console.log(error);
         })
 

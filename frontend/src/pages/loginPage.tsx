@@ -40,7 +40,7 @@ export default function LoginPage() {
 
   const [isExtended, setIsExtended] = useState(false);
 
-
+  const divRef = React.useRef<HTMLDivElement>(null);
 
   const handleLogin = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -57,16 +57,16 @@ export default function LoginPage() {
       history('/');
     }).catch((error) => {
       console.log(error)
-      setError(error.response.data.message);
+      setError(error.response.data.message || 'Login failed');
     })
 
   };
 
   return (
     <div className="min-h-screen flex items-center justify-evenly bg-gray-50 py-12 px-4 sm:px-6 lg:px-8 flex-col">
-      <div className=''>
+      <div className='' ref={divRef}>
         <h1 className={`text-7xl text-gray-700 text-left font-serif ${isExtended ? 'extended' : 'retracted'}`}>
-          Medium{isExtended ? '.' : '..'}
+          Medium{isExtended ? '.' : '.'}
         </h1>
         <h1 className='text-2xl text-center'>
           {text}

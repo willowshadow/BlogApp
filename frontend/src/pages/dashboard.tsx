@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import SideNavBar from '../components/SideNavBar';
 import blogListData, { BlogListObject } from '../models/blogListData';
 import { DashboardBlogItem } from '../components/DashboardBlogItem';
-import axios from 'axios';
+import {axiosInstance} from '../utils/axiosUtils';
 
 export default function Dashboard() {
 
@@ -15,7 +15,7 @@ export default function Dashboard() {
   const getUserBlogs = async () => {
     try {
       var user = localStorage.getItem("username");
-      const response = await axios.get(`http://localhost:5000/blog`);
+      const response = await axiosInstance.get(`/blog`, { headers: { Authorization: `Bearer ${localStorage.getItem("token")}` } });
       setBlogs(response.data);
     }
     catch (error) {

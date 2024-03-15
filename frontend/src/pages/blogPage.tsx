@@ -3,6 +3,7 @@ import SideNavBar from '../components/SideNavBar';
 import { useNavigate, useParams } from 'react-router-dom';
 import { BlogListObject } from '../models/blogListData';
 import axios from 'axios';
+import { axiosInstance } from '../utils/axiosUtils';
 
 // eslint-disable-next-line no-dupe-args
 export default function BlogPage() {
@@ -25,7 +26,7 @@ export default function BlogPage() {
   useEffect(() => {
     // Make API call to fetch the blog data using the blogId
     console.log(blogId)
-    axios.get(`http://localhost:5000/blog${blogId}`).then((response) => {
+    axiosInstance.get(`/blog${blogId}`, { headers: { Authorization: `Bearer ${localStorage.getItem("token")}` } }).then((response) => {
       console.log(response.data);
       setBlogPost(response.data);
 

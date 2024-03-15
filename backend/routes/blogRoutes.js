@@ -14,7 +14,7 @@ router.get('/blog', async (req, res) => {
 });
 
 // Get a single blog
-router.get('/blog:id', async (req, res) => {
+router.get('/blog:id', authenticateJWT, async (req, res) => {
     try {
         const blogFound = await Blog.findById(req.params.id);
         if (!blogFound) {
@@ -27,7 +27,7 @@ router.get('/blog:id', async (req, res) => {
 });
 
 //get all by author
-router.get('/blog/:author', async (req, res) => {
+router.get('/blog/:author', authenticateJWT, async (req, res) => {
     try {
         const blogsFound = await Blog.find({ author: req.params.author });
         if (!blogsFound || blogsFound.length === 0) {
@@ -39,7 +39,7 @@ router.get('/blog/:author', async (req, res) => {
     }
 });
 // Create a new blog
-router.post('/blog', async (req, res) => {
+router.post('/blog', authenticateJWT, async (req, res) => {
     const blog = new Blog({
         title: req.body.title,
         author: req.body.author,

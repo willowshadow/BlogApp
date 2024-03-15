@@ -2,6 +2,11 @@ import React, { ChangeEvent, useEffect, useState } from 'react';
 import axios from 'axios';
 import SideNavBar from '../components/SideNavBar';
 import { Console } from 'console';
+import { FaSpinner } from 'react-icons/fa';
+import { Alert, AlertDescription, AlertTitle } from '../@/components/ui/alert';
+import { useToast } from "../@/components/ui/use-toast"
+import { axiosInstance } from '../utils/axiosUtils';
+
 
 interface BlogListObject {
     title: string;
@@ -15,6 +20,7 @@ interface BlogListObject {
 
 const BlogEditPage: React.FC = () => {
 
+    const { toast } = useToast()
 
     const [blogPost, setBlogPost] = useState<BlogListObject>({
         title: '',
@@ -28,14 +34,18 @@ const BlogEditPage: React.FC = () => {
 
     const [imageFile, setImageFile] = useState<File | Blob>(null!);
     const [stateUpdated, setStateUpdated] = useState(false);
+    const [isUploading, setUploadingState] = useState(false);
 
-    useEffect(()=>{
-        if(stateUpdated)
-        {
+
+    useEffect(() => {
+        axiosInstance.get('/verifyToken').then((response) => {
+            console.log(response.data);
+        })
+        if (stateUpdated) {
             handleSave();
         }
-    },[stateUpdated]);
-    console.log(localStorage.getItem('username'))
+    }, [stateUpdated]);
+
     const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
         const { name, value } = e.target;
         setBlogPost(prevState => ({
@@ -54,11 +64,30 @@ const BlogEditPage: React.FC = () => {
                 }
             });
             setStateUpdated(false);
+            setUploadingState(false);
+
+            toast({
+                title: "Saved",
+                description: `Your article ${blogPost.title} has been posted.`,
+            })
+            setBlogFormDataToDefault();
             console.log(result.data);
             // Redirect to the published post or show a success message
         } catch (error) {
             // Handle error
             console.log(error);
+        }
+
+        function setBlogFormDataToDefault() {
+            setBlogPost({
+                title: '',
+                author: '',
+                text: '',
+                image: '',
+                type: '',
+                minutesToRead: null!,
+                date: null!
+            });
         }
     };
 
@@ -74,7 +103,7 @@ const BlogEditPage: React.FC = () => {
         try {
             const token = localStorage.getItem('token');
             const formData = new FormData();
-
+            setUploadingState(true);
             formData.append('image', imageFile);
             formData.append('imageName', imageFile.type);
             var url = 'http://localhost:5000/upload';
@@ -151,18 +180,17 @@ const BlogEditPage: React.FC = () => {
                         className="border-0 border-gray-400  bg-slate-200 p-2 mb-4 w-full"
                         placeholder="Enter minutes to read"
                     />
-                   
+
                     <button
-                        className="bg-gray-600 min-w-32 text-white p-2 mt-4 hover:bg-gray-700"
+                        className="bg-gray-600 min-w-16 text-white p-2 mt-4 hover:bg-gray-700 self-center flex text-center items-center justify-center"
+                        disabled={isUploading} // Disable the button while loading
+                        style={{ width: '40px', height: '40px' }} // Set fixed width and height
                     >
-                        Save
+                        {!isUploading ? 'Save' : <FaSpinner className="animate-spin" />} {/* Display spinner if uploading, else display 'Save' */}
                     </button>
                 </form>
 
             </div>
-            <button className='bg-gray-600 min-w-16 text-white p-2 mt-4 hover:bg-gray-700 self-center pl-64 text-center'>
-                TestUpload
-            </button>
         </div>
 
     );
